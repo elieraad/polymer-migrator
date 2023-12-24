@@ -7,6 +7,7 @@ import { extractJavaScriptCode } from "./lib/ast.js";
 
 const inputDirectory = process.argv[2];
 const outputDirectory = process.argv[3];
+const toIgnore = process.argv[4] || [];
 
 console.log(`copying files from ${inputDirectory} to ${outputDirectory}`);
 fs.copySync(inputDirectory, outputDirectory);
@@ -114,7 +115,7 @@ function processFiles(inputDir, outDir) {
 }
 
 function isDirectory(inFilePath) {
-  const directoriesToIgnore = ["bower_components", "node_modules"];
+  const directoriesToIgnore = ["bower_components", "node_modules", ...toIgnore];
 
   return fs.statSync(inFilePath).isDirectory() && directoriesToIgnore.every((dir) => !inFilePath.endsWith(dir));
 }
